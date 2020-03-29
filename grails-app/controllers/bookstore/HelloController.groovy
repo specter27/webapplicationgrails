@@ -1,10 +1,13 @@
 package bookstore
 
+import org.bookstore.Document
 import org.bookstore.user
 
+import javax.print.Doc
 
 
 class HelloController {
+
 
     def show() {
 //         def vat="Haihyshit"run
@@ -25,6 +28,44 @@ class HelloController {
 
     }
 
+    def upload(){
+
+        //getting the file wich is uploaded on the gsp page
+
+        //request--> is the object of the Interface HttpServletRequest
+        def uploadedFile = request.getFile('file')
+
+        if(uploadedFile.empty) {
+            render: "File cannot be empty"
+        } else {
+
+            //converting file to bytes
+            Document document = new Document()
+            //converting file to bytes
+            document.payload = uploadedFile.getBytes()
+            //getting the file name from the uploaded file
+            document.name = uploadedFile.originalFilename
+            //getting and storing the file type
+            document.type = uploadedFile.contentType
+            //Create the record in DB by sending the needed Select command
+            document.save()
+
+//            render "${document.payload}"
+            render( view:"uploadedfiles", model: [document:document,uploadedFile:uploadedFile])
+        }
+
+    }
+ //
+    def downloadfile()
+    {
+
+        def uploadedFile = request.getFile('file1')
+        response.setContentType("application/octet-stream")
+        response.setHeader("Content-disposition", "filename=${uploadedFile.originalFilename}")
+        response.outputStream << uploadedFile.bytes
+        return
+    }
+
     def welcome(){
 
         //getting values from the gsp
@@ -35,6 +76,8 @@ class HelloController {
         def luser=user.find("from user as u where u.mail=${uname}")
 //               [luser:luser]
 //            render" hello ${luser.password}"
+        //getting the uploaded files
+
         if (luser.password.equals(pass))
         {
             render(view: "welcome" , model: [luser:user.find("from user as u where u.mail=${uname}")])
