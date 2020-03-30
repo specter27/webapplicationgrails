@@ -22,6 +22,8 @@ class HelloController {
 
     def saveData={
 
+        def enc=new encrypt()
+        params.password=enc.encryptThisString(params.password)
         def u=new user(params)
         u.save()
         render(view: "login")
@@ -69,6 +71,8 @@ class HelloController {
         //getting values from the gsp
         def uname=params.uid
         def pass=params.myPasswordField
+        def enc=new encrypt()
+        pass=enc.encryptThisString(pass)
 
         //getting values from database
         def luser=user.find("from user as u where u.mail=${uname}")
