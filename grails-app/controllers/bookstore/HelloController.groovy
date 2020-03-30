@@ -28,6 +28,7 @@ class HelloController {
 
     }
 
+    Document document = new Document()
     def upload(){
 
         //getting the file wich is uploaded on the gsp page
@@ -39,8 +40,7 @@ class HelloController {
             render: "File cannot be empty"
         } else {
 
-            //converting file to bytes
-            Document document = new Document()
+            
             //converting file to bytes
             document.payload = uploadedFile.getBytes()
             //getting the file name from the uploaded file
@@ -51,20 +51,18 @@ class HelloController {
             document.save()
 
 //            render "${document.payload}"
-            render( view:"uploadedfiles", model: [document:document,uploadedFile:uploadedFile])
+            render( view:"uploadedfiles", model: [document:document])
         }
 
     }
  //
     def downloadfile()
     {
-
-        def uploadedFile = request.getFile('file1')
-        response.setContentType("application/octet-stream")
-        response.setHeader("Content-disposition", "filename=${uploadedFile.originalFilename}")
-        response.outputStream << uploadedFile.bytes
+              response.setContentType("application/octet-stream")
+        response.setHeader("Content-disposition", "filename=${document.name}")
+        response.outputStream << document.payload
         return
-    }
+            }
 
     def welcome(){
 
