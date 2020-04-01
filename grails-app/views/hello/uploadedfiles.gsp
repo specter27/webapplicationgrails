@@ -11,16 +11,13 @@
             <h3>${i+1}. ${docs.name}</h3>
             <br/>
         </g:each>
-
+      
         <g:uploadForm name="download_form" >
         <g:hiddenField name="file1" value="${uploadFile}" />
         </g:uploadForm>
-
-
     </div>
 
     <g:link controller="hello" action="downloadfile">Download</g:link><br>
-
-
-</body>
+    
+    </body>
 </html>
