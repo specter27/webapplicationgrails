@@ -22,15 +22,6 @@
         </br><g:submitButton value="Register" name="register" class="btn btn-success"/>
     </g:form>
 
-</body>
-        </html>
+   </body>
 
-
-
-
-        <!--<html>-->
-<!--    <body>-->
-
-<!--        <h1> hello ${params.fname} </h1>-->
-<!--    </body>-->
-<!--</html>-->
+</html>
